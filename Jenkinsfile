@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = "us-east-1"          // change to your AWS region
-        TF_WORKDIR = "./"                 // terraform working directory (adjust if needed)
+        AWS_REGION = "us-east-1"
+        TF_WORKDIR = "./"
     }
 
     stages {
@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo "Cloning repository..."
                 checkout([$class: 'GitSCM',
-                          branches: [[name: '*/main']],   // change branch if needed
+                          branches: [[name: '*/main']],
                           userRemoteConfigs: [[url: 'https://github.com/maroayman/terraform-jenkins.git']]])
             }
         }
@@ -32,12 +32,22 @@ pipeline {
             }
         }
 
+        /*
         stage('Terraform Apply') {
             steps {
-                input message: 'Do you want to apply the Terraform plan?'
+                input message: 'Apply the Terraform plan?'
                 dir("${TF_WORKDIR}") {
-                    // sh 'terraform apply -auto-approve tfplan'
-                    sh 'terraform destroy -auto-approve tfplan'
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+        */
+
+        stage('Terraform Destroy') {
+            steps {
+                input message: 'Destroy the EKS cluster and all resources?'
+                dir("${TF_WORKDIR}") {
+                    sh 'terraform destroy -auto-approve'
                 }
             }
         }
@@ -45,10 +55,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ EKS cluster deployed successfully!"
+            echo "✅ Destroy completed!"
         }
         failure {
-            echo "❌ Pipeline failed. Check logs."
+            echo "❌ Pipeline failed."
         }
     }
 }
