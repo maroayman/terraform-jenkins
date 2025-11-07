@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        /*
+        
         stage('Terraform Apply') {
             steps {
                 input message: 'Apply the Terraform plan?'
@@ -41,8 +41,8 @@ pipeline {
                 }
             }
         }
-        */
-
+        
+/*
         stage('Terraform Destroy') {
             steps {
                 input message: 'Destroy the EKS cluster and all resources?'
@@ -52,7 +52,7 @@ pipeline {
             }
         }
     }
-
+*/
     post {
         success {
             echo "✅ Destroy completed!"
