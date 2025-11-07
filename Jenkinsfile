@@ -12,7 +12,7 @@ pipeline {
                 echo "Cloning repository..."
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],   // change branch if needed
-                          userRemoteConfigs: [[url: 'https://github.com/yourusername/yourrepo.git']]])
+                          userRemoteConfigs: [[url: 'https://github.com/maroayman/terraform-jenkins.git']]])
             }
         }
 
